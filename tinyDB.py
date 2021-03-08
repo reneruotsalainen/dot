@@ -5,18 +5,35 @@ Created on Mon Mar  1 09:52:02 2021
 @author: mikae
 """
 
-#from datetime import date
+
 from tinydb import TinyDB, Query
 
-#today = date.today()
-#d1 = today.strftime("%d/%m/%Y")
+#studyTime = 0
+#breakLength = [2,2]
+
+db = TinyDB('db.json')
+breakLengthDB = TinyDB('breakLengthDB.json')
 
 def addDatabase(date, studyTime, breakLength):
-    db = TinyDB('db.json')
     
-    #studyTime = 0
-    #breakLength = [1,2,3,4,5]
     breaks = len(breakLength)
+    db.insert({"paiva": date, "Opiskeluaika" : studyTime, "Taukojen_lkm": breaks, "Taukojen_pituudet": breakLength})
     
-    db.insert({"paiva": date, "Opiskeluaika" : studyTime, "Taukojen lkm": breaks, "Taukojen pituudet": breakLength})
-
+    getBreakAvg(breakLength)
+    
+    
+def getBreakAvg(breakLength):
+    
+    avg = sum(breakLength)/len(breakLength)
+   
+    #if list is empty insert avg, else get avg and calculate new avg
+    if not breakLengthDB:
+        breakLengthDB.insert({"Taukojen_keskiarvo" : avg})
+        return avg
+    else:
+        for i in breakLengthDB:
+            tmp = i.get("Taukojen_keskiarvo")
+            tmp = (avg + tmp) / 2
+            breakLengthDB.truncate()
+            breakLengthDB.insert({"Taukojen_keskiarvo" : tmp})
+            return tmp
