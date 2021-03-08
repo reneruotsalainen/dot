@@ -5,6 +5,8 @@ from RPLCD.i2c import CharLCD
 
 from timer import Timer
 
+import tinyDB
+
 LCD = CharLCD(i2c_expander='PCF8574', address=0x27, port=1,
               cols=20, rows=4, dotsize=8,
               charmap='A02',
@@ -23,9 +25,13 @@ BOUNCE = 0.2
 try:
     # main loop
     while True:
+        # average break
+        avg_break = None
+        #avg_break = tinyDB.getBreakAvg()
         
         # timer is instantiated everytime 
-        timer = Timer(LCD)
+        timer = Timer(LCD, False, avg_break)
+
 
         study_time = None
 
@@ -62,11 +68,17 @@ try:
                     pause_timer.start()
                 else:
                     pause_timer.stop()
-                    breaks.append((pause_timer.time, pause_timer.start_time))
+                    breaks.append([pause_timer.time, str(pause_timer.start_time)])
                     print("break lasted {} seconds".format(pause_timer.time))
                     timer.resume()
 
         
+        start = timer.start_time
+        end = timer.end_time
+
+        # adding the study session to the db
+        #tinyDB.addDatabase(start, study_time, breaks)
+
         print(study_time, breaks, sep="\n")
 
 except KeyboardInterrupt:

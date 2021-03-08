@@ -1,16 +1,18 @@
 from time import sleep
-from datetime import datetime
+from datetime import datetime as dt
 from threading import Thread
 
 class Timer(Thread):
     'Timer functionality, extends Thread'
-    def __init__(self, lcd, break_thread = False):
+    def __init__(self, lcd, break_thread = False, suggested_break = None):
         super(Timer, self).__init__()
         self.daemon = True
         self.LCD = lcd
         
         'breakthread defaults to False'
         self.break_thread = break_thread
+
+        self.suggested_break = suggested_break
 
         self.start_time = None
 
@@ -21,7 +23,8 @@ class Timer(Thread):
     
     # main loop, begins when Thread.start() is called
     def run(self):
-        self.start_time = datetime.now()
+        self.start_time = dt.now()
+        self.end_time = None
         self.running = True
         while not self.stopped:
             if self.running:
@@ -50,5 +53,6 @@ class Timer(Thread):
 
     def stop(self):
         self.stopped = True
+        self.end_time = dt.now()
 
     
