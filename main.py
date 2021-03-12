@@ -55,7 +55,6 @@ try:
                     LCD.clear()
                     LCD.cursor_pos = (1,3)
                     LCD.write_string("Timer stopped")
-                    study_time = timer.time
                     print("Study time was {} seconds".format(study_time))
                     sleep(1)
                     break
@@ -68,7 +67,7 @@ try:
                     pause_timer.start()
                 else:
                     pause_timer.stop()
-                    breaks.append([pause_timer.time, str(pause_timer.start_time)])
+                    breaks.append([pause_timer.time, pause_timer.start_time])
                     print("break lasted {} seconds".format(pause_timer.time))
                     timer.resume()
 
