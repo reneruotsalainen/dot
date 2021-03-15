@@ -1,1 +1,30 @@
-{"_default": {"1": {"paiva": "01/03/2021", "Opiskeluaika": 0, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}, "2": {"paiva": "01/03/2021", "Opiskeluaika": 0, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}}}
+{"_default": 
+    {   
+        "1": {"paiva": "01/01/2021", "Opiskeluaika": 100, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}, 
+        "2": {"paiva": "02/01/2021", "Opiskeluaika": 90, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}, 
+        "3": {"paiva": "03/01/2021", "Opiskeluaika": 80, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]},
+        "4": {"paiva": "04/01/2021", "Opiskeluaika": 120, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]},
+        "5": {"paiva": "01/01/2021", "Opiskeluaika": 100, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}, 
+        "6": {"paiva": "02/01/2021", "Opiskeluaika": 90, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}, 
+        "7": {"paiva": "03/01/2021", "Opiskeluaika": 80, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]},
+        "8": {"paiva": "01/01/2021", "Opiskeluaika": 100, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}, 
+        "9": {"paiva": "02/01/2021", "Opiskeluaika": 90, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}, 
+        "10": {"paiva": "03/01/2021", "Opiskeluaika": 80, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]},
+        "11": {"paiva": "01/01/2021", "Opiskeluaika": 100, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}, 
+        "12": {"paiva": "02/01/2021", "Opiskeluaika": 90, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}, 
+        "13": {"paiva": "03/01/2021", "Opiskeluaika": 80, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]},
+        "14": {"paiva": "01/01/2021", "Opiskeluaika": 100, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}, 
+        "15": {"paiva": "02/01/2021", "Opiskeluaika": 90, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}, 
+        "16": {"paiva": "03/01/2021", "Opiskeluaika": 80, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]},
+        "17": {"paiva": "04/01/2021", "Opiskeluaika": 120, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]},
+        "18": {"paiva": "01/01/2021", "Opiskeluaika": 100, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}, 
+        "19": {"paiva": "02/01/2021", "Opiskeluaika": 90, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}, 
+        "20": {"paiva": "03/01/2021", "Opiskeluaika": 80, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]},
+        "21": {"paiva": "01/01/2021", "Opiskeluaika": 100, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}, 
+        "22": {"paiva": "02/01/2021", "Opiskeluaika": 90, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}, 
+        "23": {"paiva": "03/01/2021", "Opiskeluaika": 80, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]},
+        "24": {"paiva": "01/01/2021", "Opiskeluaika": 100, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}, 
+        "25": {"paiva": "02/01/2021", "Opiskeluaika": 90, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}, 
+        "26": {"paiva": "03/01/2021", "Opiskeluaika": 80, "Taukojen lkm": 5, "Taukojen pituudet": [1, 2, 3, 4, 5]}
+    }
+}
