@@ -1,10 +1,10 @@
-from time import sleep
+from time import time, sleep
 from datetime import datetime as dt
 from threading import Thread
 
 class Timer(Thread):
     'Timer functionality, extends Thread'
-    def __init__(self, lcd, break_thread = False, suggested_break = None):
+    def __init__(self, lcd, break_thread, suggested_break, alarm):
         super(Timer, self).__init__()
         self.daemon = True
         self.LCD = lcd
@@ -13,6 +13,8 @@ class Timer(Thread):
         self.break_thread = break_thread
 
         self.suggested_break = suggested_break
+
+        self.alarm = alarm
 
         self.start_time = None
 
@@ -26,12 +28,21 @@ class Timer(Thread):
         self.start_time = dt.now()
         self.end_time = None
         self.running = True
+        if self.alarm is not None:
+            self.alarm.start()
+        start = time()
         while not self.stopped:
             if self.running:
-                self.time += 1
+                self.time = int(time() - start)
                 if not self.break_thread:
                     self.LCD.cursor_pos = (0, 6)
                     self.LCD.write_string("Running:")
+                    mod = self.time % self.suggested_break
+                    if self.time != 0 and mod == 0 :
+                        self.alarm.activate()
+                    elif mod >= 6:
+                        self.alarm.stop()
+            
                 else:
                     self.LCD.cursor_pos = (0, 7)
                     self.LCD.write_string("Paused:")
@@ -40,8 +51,11 @@ class Timer(Thread):
                 self.LCD.write_string("               ")
                 self.LCD.cursor_pos = (1, 9)
                 self.LCD.write_string(str(self.time))
-                sleep(1)
+                sleep(0.2)
             sleep(0.1)
+
+        if self.alarm is not None:
+            self.alarm.stop()
 
     def resume(self):
         self.running = True
@@ -50,6 +64,7 @@ class Timer(Thread):
     def pause(self):
         self.running = False
         self.paused = True
+        self.alarm.stop()
 
     def stop(self):
         self.stopped = True

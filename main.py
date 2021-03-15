@@ -5,7 +5,9 @@ from RPLCD.i2c import CharLCD
 
 from timer import Timer
 
-import tinyDB
+from alarm import Alarm
+
+#import tinyDB
 
 LCD = CharLCD(i2c_expander='PCF8574', address=0x27, port=1,
               cols=20, rows=4, dotsize=8,
@@ -26,11 +28,11 @@ try:
     # main loop
     while True:
         # average break
-        avg_break = None
         #avg_break = tinyDB.getBreakAvg()
+        avg_break = 20
         
         # timer is instantiated everytime 
-        timer = Timer(LCD, False, avg_break)
+        timer = Timer(LCD, False, avg_break, Alarm(piezo))
 
 
         study_time = None
@@ -48,13 +50,13 @@ try:
                 if not timer.running and not timer.paused:
                     timer.start()
                     print("started timer")
-                    start = datetime.datetime.now().time()
                 # timer has been started, but not paused
                 elif timer.running:
                     timer.stop()
                     LCD.clear()
                     LCD.cursor_pos = (1,3)
                     LCD.write_string("Timer stopped")
+                    study_time = timer.time
                     print("Study time was {} seconds".format(study_time))
                     sleep(1)
                     break
@@ -63,7 +65,7 @@ try:
                 if timer.running:
                     timer.pause()
                     LCD.clear()
-                    pause_timer = Timer(LCD, break_thread=True)
+                    pause_timer = Timer(LCD, break_thread=True, suggested_break=None, alarm=None)
                     pause_timer.start()
                 else:
                     pause_timer.stop()
