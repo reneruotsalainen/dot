@@ -8,13 +8,20 @@ import datetime as dt
 from tinydb import TinyDB, Query
 
 #testvalues
+
 #now = dt.datetime.now()
-#testStart = dt.datetime(2021, 3, 12, 16, 30)
-#testStop = dt.datetime(2021, 3, 12, 16, 45)
+#testStart1 = dt.datetime(2021, 3, 16, 16, 30)
+#testStop1 = dt.datetime(2021, 3, 16, 16, 45)
+
+#testStart2 = dt.datetime(2021, 3, 16, 17, 00)
+#testStop2 = dt.datetime(2021, 3, 16, 17, 30)
+
 #testDate = now
 #testStudyTime = 5
+
 #[[kesto, tauonalotus, lopetus]]
-#testBreakLength = [[10,testStart,testStop],[12,testStart,testStop]]
+#testBreakLength = [[10,testStart1,testStop1],[12,testStart2,testStop2]]
+#testBreakLengthEmpty = []
 
 
 db = TinyDB('db.json')
@@ -47,6 +54,10 @@ def getBreakAvg():
             return (sum(avg)/len(avg))
 
 def saveAvgBreak(start, breakLength):
+    
+    if not breakLength:
+        return
+    
     times = []
     times.append(breakLength[0][1]-start)
     
@@ -73,6 +84,6 @@ def saveAvgBreak(start, breakLength):
            breakLengthDB.insert({"Taukojen_valit" : avg})
             
 #testing
-#addDatabase(testDate,testStudyTime,testBreakLength)
+#addDatabase(testDate,testStudyTime,testBreakLengthEmpty)
 #print(getBreakAvg())
 
