@@ -10,11 +10,11 @@ from tinydb import TinyDB, Query
 #testvalues
 
 #now = dt.datetime.now()
-#testStart1 = dt.datetime(2021, 3, 16, 16, 30)
-#testStop1 = dt.datetime(2021, 3, 16, 16, 45)
+#testStart1 = dt.datetime(2021, 3, 17, 16, 30)
+#testStop1 = dt.datetime(2021, 3, 17, 16, 45)
 
-#testStart2 = dt.datetime(2021, 3, 16, 17, 00)
-#testStop2 = dt.datetime(2021, 3, 16, 17, 30)
+#testStart2 = dt.datetime(2021, 3, 17, 17, 00)
+#testStop2 = dt.datetime(2021, 3, 17, 17, 30)
 
 #testDate = now
 #testStudyTime = 5
@@ -51,7 +51,7 @@ def getBreakAvg():
     else:
         for i in breakLengthDB:
             avg = i.get("Taukojen_valit")
-            return (sum(avg)/len(avg))
+            return int((sum(avg)/len(avg)))
 
 def saveAvgBreak(start, breakLength):
     
@@ -84,6 +84,6 @@ def saveAvgBreak(start, breakLength):
            breakLengthDB.insert({"Taukojen_valit" : avg})
             
 #testing
-#addDatabase(testDate,testStudyTime,testBreakLengthEmpty)
+#addDatabase(testDate,testStudyTime,testBreakLength)
 #print(getBreakAvg())
 
