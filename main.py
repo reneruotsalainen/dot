@@ -7,11 +7,11 @@ from timer import Timer
 
 from alarm import Alarm
 
-#import tinyDB
+import tinyDB
 
 LCD = CharLCD(i2c_expander='PCF8574', address=0x27, port=1,
               cols=20, rows=4, dotsize=8,
-              charmap='A02',
+              charmap='A00',
               auto_linebreaks=True,
               backlight_enabled=True)
 
@@ -28,8 +28,12 @@ try:
     # main loop
     while True:
         # average break
-        #avg_break = tinyDB.getBreakAvg()
-        avg_break = 20
+        avg_break = tinyDB.getBreakAvg()
+        print("avg_break:", avg_break)
+
+        if avg_break == None:
+            print("avg_break", 1800)
+            avg_break = 1800
         
         # timer is instantiated everytime 
         timer = Timer(LCD, False, avg_break, Alarm(piezo))
@@ -68,8 +72,12 @@ try:
                     pause_timer = Timer(LCD, break_thread=True, suggested_break=None, alarm=None)
                     pause_timer.start()
                 else:
-                    pause_timer.stop()
-                    breaks.append([pause_timer.time, pause_timer.start_time])
+                    try:
+                        pause_timer.stop()
+                    except Exception:
+                        print("Cant pause before starting!")
+                        continue
+                    breaks.append([pause_timer.time, pause_timer.start_time, pause_timer.end_time])
                     print("break lasted {} seconds".format(pause_timer.time))
                     timer.resume()
 
@@ -78,9 +86,9 @@ try:
         end = timer.end_time
 
         # adding the study session to the db
-        #tinyDB.addDatabase(start, study_time, breaks)
+        tinyDB.addDatabase(start, study_time, breaks)
 
-        print(study_time, breaks, sep="\n")
+        print("[{}, {}]".format(study_time, breaks))
 
 except KeyboardInterrupt:
     print("\nkilled")

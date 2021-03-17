@@ -31,9 +31,10 @@ class Timer(Thread):
         if self.alarm is not None:
             self.alarm.start()
         start = time()
+        last_time = None
         while not self.stopped:
+            self.time = int(time() - start)
             if self.running:
-                self.time = int(time() - start)
                 if not self.break_thread:
                     self.LCD.cursor_pos = (0, 6)
                     self.LCD.write_string("Running:")
@@ -47,11 +48,13 @@ class Timer(Thread):
                     self.LCD.cursor_pos = (0, 7)
                     self.LCD.write_string("Paused:")
 
-                self.LCD.cursor_pos = (1, 9)
-                self.LCD.write_string("               ")
-                self.LCD.cursor_pos = (1, 9)
-                self.LCD.write_string(str(self.time))
-                sleep(0.2)
+                if self.time != last_time:
+                    self.LCD.cursor_pos = (2, 6)
+                    self.LCD.write_string(str("{} m {} s".format(str(int(self.time/60)), str(self.time%60))))
+
+                last_time = self.time
+
+                sleep(0.1)
             sleep(0.1)
 
         if self.alarm is not None:
