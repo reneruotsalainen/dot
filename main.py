@@ -27,7 +27,7 @@ BOUNCE = 0.2
 try:
     # main loop
     while True:
-        # average break
+        #  NB!! average time before a break
         avg_break = tinyDB.getBreakAvg()
         print("avg_break:", avg_break)
 
