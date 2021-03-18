@@ -50,7 +50,7 @@ class Timer(Thread):
 
                 if self.time != last_time:
                     self.LCD.cursor_pos = (2, 6)
-                    self.LCD.write_string(str("{} m {} s".format(str(int(self.time/60)), str(self.time%60))))
+                    self.LCD.write_string(str("{} m {} s ".format(str(int(self.time/60)), str(self.time%60))))
 
                 last_time = self.time
 
