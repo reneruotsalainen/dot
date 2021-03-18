@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOT</title>
+    <title>Time management tool</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -13,32 +13,40 @@
 </head>
 <body>
     <div class="jumbotron">
-        <h1 style="text-align: center;">Opiskeluaika</h1>
+        <h1 style="text-align: center;">Time management tool</h1>
     </div>
 
     <div class="padding">
         <div class="container">
             <div class="row">
-                <div class="col-sm-4 text-center">            
+                <div class="col-sm-3 text-center">            
                     <p>
-                        Keskimääräinen opiskeluaikasi:
+                        Average study time:
                     </p>
                     <p id=avgStudyTime style="font-weight: bold;">
                     
                     </p>       
                 </div>
 
-                <div class="col-sm-4 text-center" >
+                <div class="col-sm-3 text-center" >
                     <p>
-                        Keskimääräinen taukojesi pituus:
+                        Average studytime between breaks:
+                    </p>
+                    <p id=avgBreakTimeBetween style="font-weight: bold;">
+                    
+                    </p>
+                </div>
+                <div class="col-sm-3 text-center" >
+                    <p>
+                        Average time of breaks:
                     </p>
                     <p id=avgBreakTime style="font-weight: bold;">
                     
                     </p>
                 </div>
-                <div class="col-sm-4 text-center" >
+                <div class="col-sm-3 text-center" >
                     <p>
-                        Keskimääräinen taukojesi määrä:
+                        Average count of breaks:
                     </p>
                     <p id=avgBreakCount style="font-weight: bold;">
                     

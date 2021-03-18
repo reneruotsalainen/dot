@@ -1,6 +1,7 @@
 let STUDYTIME;
 let BREAKLENGTH;
 let BREAKCOUNT;
+let STUDYLENGTH;
 
 $(document).ready(function(){
         $.getJSON("db.json", function(json) {
@@ -11,15 +12,16 @@ $(document).ready(function(){
             }); 
             barChart(list); 
             avgBreakCount(list);
+            avgBreakLength(list);
         });  
-
+        
         $.getJSON("breakLengthDB.json", function(json) {
             Object.entries(json).forEach(([key, value]) => {
                 let avgBreakLengths = [];
                 Object.entries(value).forEach(([key, value]) => {
                     avgBreakLengths.push(value);
                 }); 
-                avgBreakTime(avgBreakLengths);
+                avgStudyTimeBetweenBreaks(avgBreakLengths);
             }); 
         }); 
     });  
@@ -39,6 +41,7 @@ function barChart(studyTimes){
     }
 
     avgStudyTime(times);
+    
 
     let myChart = document.getElementById("barChart").getContext("2d");
     let barChart = new Chart(myChart, {
@@ -47,7 +50,7 @@ function barChart(studyTimes){
             labels:days,
             
             datasets:[{
-                label:"Opiskeluaika",
+                label:"Studytime",
                 data:times,  
                 backgroundColor:backgroundColors
             }]
@@ -55,7 +58,7 @@ function barChart(studyTimes){
         options:{
             title:{
                 display:true,
-                text:"Opiskeluaikasi päivittäin"
+                text:"Daily studytime"
             },
             legend:{
                 display:false,
@@ -65,7 +68,7 @@ function barChart(studyTimes){
                     display: true,
                     scaleLabel:{
                         display: true,
-                        labelString: "Päivämäärä"
+                        labelString: "Date"
                     }
                 }],
                 yAxes:[{
@@ -75,7 +78,7 @@ function barChart(studyTimes){
                     },
                     scaleLabel:{
                         display: true,
-                        labelString: "Minuutit"
+                        labelString: "Minutes"
                     }
                 }],
             }
@@ -83,11 +86,12 @@ function barChart(studyTimes){
     });
 }
 
-function avgBreakTime(studyTimes){
+function avgStudyTimeBetweenBreaks(studyTimes){
     let breaks = [];
     for (let i = 0; i < studyTimes.length; i++){
         breaks.push(studyTimes[i].Taukojen_valit.toString());
     }
+    console.log
     let breaksString = breaks[0].split(",");
    
     const arrInteger = breaksString.map(x => Number.parseInt(x, 10));
@@ -96,15 +100,15 @@ function avgBreakTime(studyTimes){
         avg += arrInteger[i];
     }
     avg = Math.round((avg/arrInteger.length)/60)
-    BREAKLENGTH = avg;
+    STUDYLENGTH = avg;
     
-    if(BREAKLENGTH > 30){
-        document.getElementById("avgBreakTime").innerHTML=avg.toString() + " minuuttia. <br><br> <i>Taukosi ovat ehkä liian pitkiä</i>";
-    }else if (BREAKLENGTH < 5){
-        document.getElementById("avgBreakTime").innerHTML=avg.toString() + " minuuttia. <br><br> <i>Taukosi ovat ehkä liian lyhyitä</i>";
+    if(STUDYLENGTH > 120){
+        document.getElementById("avgBreakTimeBetween").innerHTML=avg.toString() + " Minutes <br><br> <i>You should take breaks more often</i>";
+    }else if (STUDYLENGTH < 30){
+        document.getElementById("avgBreakTimeBetween").innerHTML=avg.toString() + " Minutes <br><br> <i>You might take breaks too often!</i>";
     }
     else{
-        document.getElementById("avgBreakTime").innerHTML=avg.toString();
+        document.getElementById("avgBreakTimeBetween").innerHTML=avg.toString() + " Minutes";
     }
     
 }
@@ -118,13 +122,13 @@ function avgBreakCount(studyTimes){
     for (let i = 0; i < breakCount.length; i++){
         avg += breakCount[i];
     }
-    avg = avg/breakCount.length;
+    avg = Math.floor(avg/breakCount.length);
     BREAKCOUNT = avg;
     //avg = 1;
     if (BREAKCOUNT <= 1){
-        document.getElementById("avgBreakCount").innerHTML=avg.toString() + "<br><br> <i>Kannattaisi pitää enemmän taukoja</i>";
+        document.getElementById("avgBreakCount").innerHTML=avg.toString() + "<br><br> <i>You should take more breaks!</i>";
     }else if (BREAKCOUNT > 8){
-        document.getElementById("avgBreakCount").innerHTML=avg.toString() + "<br><br> <i>Pidät ehkä liikaa taukoja</i>";
+        document.getElementById("avgBreakCount").innerHTML=avg.toString() + "<br><br> <i>You might take too much breaks!</i>";
     }
     else{
         document.getElementById("avgBreakCount").innerHTML=avg.toString();
@@ -142,11 +146,52 @@ function avgStudyTime(studyTimes){
     STUDYTIME = avg;
     //STUDYTIME = 80;
     if (STUDYTIME > 540){
-        document.getElementById("avgStudyTime").innerHTML=avg.toString() + " minuuttia. <br><br> <i>Opiskelet ehkä liikaa</i>";
+        document.getElementById("avgStudyTime").innerHTML=avg.toString() + " Minutes <br><br> <i>You might study too much!</i>";
     }else if(STUDYTIME < 60){
-        document.getElementById("avgStudyTime").innerHTML=avg.toString() + " minuuttia. <br><br> <i>Kannattaa tarkistaa opiskeluaikasi</i>";
+        document.getElementById("avgStudyTime").innerHTML=avg.toString() + " Minutes <br><br> <i>You should check your the length of your studytimes!</i>";
     }else{
-        document.getElementById("avgStudyTime").innerHTML=avg.toString() + " minuuttia";
+        document.getElementById("avgStudyTime").innerHTML=avg.toString() + " Minutes";
+    }  
+}
+
+function avgBreakLength(studyTimes){
+    let breaks = [];
+
+    for (let i = 0; i < studyTimes.length; i++){
+        breaks.push(studyTimes[i].Taukojen_pituudet)
     }
-    
+
+    let breakLengths = [];
+    for (const [key, value] of Object.entries(breaks)) {
+        breakLengths.push(value.toString());
+    }
+    let strBreakLengths = breakLengths.toString();
+    breakLengths = [];
+    breakLengths = strBreakLengths.split(",")
+
+    let integerBreakLengths = [];
+    let i = 0;
+    while (i < breakLengths.length){
+        if(i >= breakLengths.length){
+            break;
+        }else{
+            integerBreakLengths.push(parseInt(breakLengths[i]));
+            i = i + 3;
+        }    
+    }
+
+    let avg = 0;
+    for (let i = 0; i < integerBreakLengths.length; i++){
+        avg += integerBreakLengths[i];
+    }
+    avg = Math.round(avg/integerBreakLengths.length)
+    BREAKLENGTH = avg;
+    if(BREAKLENGTH > 30){
+        document.getElementById("avgBreakTime").innerHTML=avg.toString() + " Minutes <br><br> <i>You might taking too long breaks!</i>";
+    }else if (BREAKLENGTH < 5){
+        document.getElementById("avgBreakTime").innerHTML=avg.toString() + " Minutes <br><br> <i>You breaks might be too short!</i>";
+    }
+    else{
+        document.getElementById("avgBreakTime").innerHTML=avg.toString() + " Minutes";
+    } 
 }
