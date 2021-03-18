@@ -1,3 +1,6 @@
+let STUDYTIME;
+let BREAKLENGTH;
+let BREAKCOUNT;
 
 $(document).ready(function(){
         $.getJSON("db.json", function(json) {
@@ -5,9 +8,6 @@ $(document).ready(function(){
             let list = [];
             Object.entries(value).forEach(([key, value]) => {
                 list.push(value);
-                console.log(list)
-                $("#data").append(JSON.stringify(value, null, 4)) 
-                $("#data").append("<br>"); 
             }); 
             barChart(list); 
             avgBreakCount(list);
@@ -18,11 +18,7 @@ $(document).ready(function(){
                 let avgBreakLengths = [];
                 Object.entries(value).forEach(([key, value]) => {
                     avgBreakLengths.push(value);
-                    //console.log(avgBreakLengths);
-                    $("#data").append(JSON.stringify(value, null, 4)) 
-                    $("#data").append("<br>"); 
                 }); 
-                //barChart(list); 
                 avgBreakTime(avgBreakLengths);
             }); 
         }); 
@@ -38,9 +34,11 @@ function barChart(studyTimes){
     for (let i = 0; i < studyTimes.length; i++){
         days.push(studyTimes[i].paiva.toString());
         let tmp = (studyTimes[i].Opiskeluaika)/60
-        times.push(tmp.toFixed(3));
+        times.push(tmp.toFixed(2));
         backgroundColors.push("rgba(255,0,0,0.5)");
     }
+
+    avgStudyTime(times);
 
     let myChart = document.getElementById("barChart").getContext("2d");
     let barChart = new Chart(myChart, {
@@ -67,7 +65,7 @@ function barChart(studyTimes){
                     display: true,
                     scaleLabel:{
                         display: true,
-                        labelString: 'Päivämäärä'
+                        labelString: "Päivämäärä"
                     }
                 }],
                 yAxes:[{
@@ -77,7 +75,7 @@ function barChart(studyTimes){
                     },
                     scaleLabel:{
                         display: true,
-                        labelString: 'Minuutit'
+                        labelString: "Minuutit"
                     }
                 }],
             }
@@ -98,7 +96,17 @@ function avgBreakTime(studyTimes){
         avg += arrInteger[i];
     }
     avg = Math.round((avg/arrInteger.length)/60)
-    document.getElementById("avgBreakTime").innerHTML=avg.toString() + " minuuttia";
+    BREAKLENGTH = avg;
+    
+    if(BREAKLENGTH > 30){
+        document.getElementById("avgBreakTime").innerHTML=avg.toString() + " minuuttia. <br><br> <i>Taukosi ovat ehkä liian pitkiä</i>";
+    }else if (BREAKLENGTH < 5){
+        document.getElementById("avgBreakTime").innerHTML=avg.toString() + " minuuttia. <br><br> <i>Taukosi ovat ehkä liian lyhyitä</i>";
+    }
+    else{
+        document.getElementById("avgBreakTime").innerHTML=avg.toString();
+    }
+    
 }
 
 function avgBreakCount(studyTimes){
@@ -111,5 +119,34 @@ function avgBreakCount(studyTimes){
         avg += breakCount[i];
     }
     avg = avg/breakCount.length;
-    document.getElementById("avgBreakCount").innerHTML=avg.toString();
+    BREAKCOUNT = avg;
+    //avg = 1;
+    if (BREAKCOUNT <= 1){
+        document.getElementById("avgBreakCount").innerHTML=avg.toString() + "<br><br> <i>Kannattaisi pitää enemmän taukoja</i>";
+    }else if (BREAKCOUNT > 8){
+        document.getElementById("avgBreakCount").innerHTML=avg.toString() + "<br><br> <i>Pidät ehkä liikaa taukoja</i>";
+    }
+    else{
+        document.getElementById("avgBreakCount").innerHTML=avg.toString();
+    } 
+    
+}
+
+function avgStudyTime(studyTimes){
+    const arrInteger = studyTimes.map(x => Number.parseInt(x, 10));
+    let avg = 0;
+    for (let i = 0; i < arrInteger.length; i++){
+        avg += arrInteger[i];
+    }
+    avg = Math.round(avg/arrInteger.length)
+    STUDYTIME = avg;
+    //STUDYTIME = 80;
+    if (STUDYTIME > 540){
+        document.getElementById("avgStudyTime").innerHTML=avg.toString() + " minuuttia. <br><br> <i>Opiskelet ehkä liikaa</i>";
+    }else if(STUDYTIME < 60){
+        document.getElementById("avgStudyTime").innerHTML=avg.toString() + " minuuttia. <br><br> <i>Kannattaa tarkistaa opiskeluaikasi</i>";
+    }else{
+        document.getElementById("avgStudyTime").innerHTML=avg.toString() + " minuuttia";
+    }
+    
 }

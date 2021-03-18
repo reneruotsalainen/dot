@@ -13,28 +13,30 @@
 </head>
 <body>
     <div class="jumbotron">
-        <h1 style="text-align: center;">DOT Projekti</h1>
+        <h1 style="text-align: center;">Opiskeluaika</h1>
     </div>
-    
-    
 
     <div class="padding">
         <div class="container">
             <div class="row">
-                <div class="col-sm-9">
-                    <div class="container">
-                        <canvas id=barChart></canvas>
-                    </div>
+                <div class="col-sm-4 text-center">            
+                    <p>
+                        Keskimääräinen opiskeluaikasi:
+                    </p>
+                    <p id=avgStudyTime style="font-weight: bold;">
+                    
+                    </p>       
                 </div>
 
-                <div class="col-sm-3 text-center" >
+                <div class="col-sm-4 text-center" >
                     <p>
                         Keskimääräinen taukojesi pituus:
                     </p>
                     <p id=avgBreakTime style="font-weight: bold;">
                     
                     </p>
-                    <br><br><br><br>
+                </div>
+                <div class="col-sm-4 text-center" >
                     <p>
                         Keskimääräinen taukojesi määrä:
                     </p>
@@ -44,13 +46,22 @@
                 </div>
             </div>
         </div>
+    </div> 
+   
+    <br>
+
+    <div class="padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="container">
+                        <canvas id=barChart></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="container">
-        <canvas id=myChart></canvas>
-    </div>
-    
-    <p id="data"></p>
 
 </body>
 </html>
