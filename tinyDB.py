@@ -7,26 +7,11 @@ Created on Mon Mar  1 09:52:02 2021
 import datetime as dt
 from tinydb import TinyDB, Query
 
-#testvalues
-
-#now = dt.datetime.now()
-#testStart1 = dt.datetime(2021, 3, 17, 16, 30)
-#testStop1 = dt.datetime(2021, 3, 17, 16, 45)
-
-#testStart2 = dt.datetime(2021, 3, 17, 17, 00)
-#testStop2 = dt.datetime(2021, 3, 17, 17, 30)
-
-#testDate = now
-#testStudyTime = 5
-
-#[[kesto, tauonalotus, lopetus]]
-#testBreakLength = [[10,testStart1,testStop1],[12,testStart2,testStop2]]
-#testBreakLengthEmpty = []
-
-
+#Initialize the databases
 db = TinyDB('db.json')
 breakLengthDB = TinyDB('breakLengthDB.json')
 
+#Function for saving the session data to database and to save avg studytime between breaks.
 def addDatabase(start, studyTime, breakLength):
     
     saveAvgBreak(start, breakLength)
@@ -43,7 +28,8 @@ def addDatabase(start, studyTime, breakLength):
     db.insert({"paiva": str(start), "Opiskeluaika" : studyTime, "Taukojen_lkm": breaks, "Taukojen_pituudet": convertedBreaks})
     
     
-    
+#Function to return the avg study time between breaks from breakLengthDB.json file
+#Returns seconds in int   
 def getBreakAvg():
     #if list is empty insert avg, else get avg and calculate new avg
     if not breakLengthDB:
@@ -53,6 +39,7 @@ def getBreakAvg():
             avg = i.get("Taukojen_valit")
             return int((sum(avg)/len(avg)))
 
+#Function to save the average studytime between breaks to the breakLengthDB.json file
 def saveAvgBreak(start, breakLength):
     
     if not breakLength:
@@ -82,8 +69,4 @@ def saveAvgBreak(start, breakLength):
            avg.extend(seconds)
            breakLengthDB.truncate()
            breakLengthDB.insert({"Taukojen_valit" : avg})
-            
-#testing
-#addDatabase(testDate,testStudyTime,testBreakLength)
-#print(getBreakAvg())
 

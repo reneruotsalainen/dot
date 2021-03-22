@@ -3,6 +3,8 @@ let BREAKLENGTH;
 let BREAKCOUNT;
 let STUDYLENGTH;
 
+//Using Jquery to fetch the json data from db.json and breakLengthDB.json files.
+//This function sends the data to visualization functions
 $(document).ready(function(){
         $.getJSON("db.json", function(json) {
         Object.entries(json).forEach(([key, value]) => {
@@ -27,22 +29,24 @@ $(document).ready(function(){
     });  
 });
 
-//Makes visualization of days and studytimes. Chart can be changed in type:"bar" section
+//Makes barchart visualization of days and studytimes. Chart can be changed in type:"bar" section
 function barChart(studyTimes){
 
     let days = [];
     let times = [];
     let backgroundColors = []
+	
+	//Gets the data from studyTime object
     for (let i = 0; i < studyTimes.length; i++){
         days.push(studyTimes[i].paiva.toString());
         let tmp = (studyTimes[i].Opiskeluaika)/60
         times.push(tmp.toFixed(2));
         backgroundColors.push("rgba(255,0,0,0.5)");
     }
-
+	//Call to calculate avg studytime from times list
     avgStudyTime(times);
     
-
+	//Making the barchart
     let myChart = document.getElementById("barChart").getContext("2d");
     let barChart = new Chart(myChart, {
         type:"bar", //bar, horizontalBar, pie, line, doughnut, radar, polarArea
@@ -86,12 +90,13 @@ function barChart(studyTimes){
     });
 }
 
+//Function to calculate and show the avg studytime between breaks
 function avgStudyTimeBetweenBreaks(studyTimes){
     let breaks = [];
     for (let i = 0; i < studyTimes.length; i++){
         breaks.push(studyTimes[i].Taukojen_valit.toString());
     }
-    console.log
+    
     let breaksString = breaks[0].split(",");
    
     const arrInteger = breaksString.map(x => Number.parseInt(x, 10));
@@ -113,6 +118,7 @@ function avgStudyTimeBetweenBreaks(studyTimes){
     
 }
 
+//Function to calculate and show avg break count
 function avgBreakCount(studyTimes){
     let breakCount = [];
     for (let i = 0; i < studyTimes.length; i++){
@@ -124,7 +130,7 @@ function avgBreakCount(studyTimes){
     }
     avg = Math.floor(avg/breakCount.length);
     BREAKCOUNT = avg;
-    //avg = 1;
+    
     if (BREAKCOUNT <= 1){
         document.getElementById("avgBreakCount").innerHTML=avg.toString() + "<br><br> <i>You should take more breaks!</i>";
     }else if (BREAKCOUNT > 8){
@@ -136,6 +142,7 @@ function avgBreakCount(studyTimes){
     
 }
 
+//Function to calculate and show avg study time
 function avgStudyTime(studyTimes){
     const arrInteger = studyTimes.map(x => Number.parseInt(x, 10));
     let avg = 0;
@@ -144,7 +151,7 @@ function avgStudyTime(studyTimes){
     }
     avg = Math.round(avg/arrInteger.length)
     STUDYTIME = avg;
-    //STUDYTIME = 80;
+    
     if (STUDYTIME > 540){
         document.getElementById("avgStudyTime").innerHTML=avg.toString() + " Minutes <br><br> <i>You might study too much!</i>";
     }else if(STUDYTIME < 60){
@@ -154,9 +161,11 @@ function avgStudyTime(studyTimes){
     }  
 }
 
+//Function to calculate and show avg break length
 function avgBreakLength(studyTimes){
     let breaks = [];
-
+	
+	//Dismantling the studyTimes object
     for (let i = 0; i < studyTimes.length; i++){
         breaks.push(studyTimes[i].Taukojen_pituudet)
     }
@@ -171,6 +180,7 @@ function avgBreakLength(studyTimes){
 
     let integerBreakLengths = [];
     let i = 0;
+	//Getting every third value from the list, because the form of the data in database
     while (i < breakLengths.length){
         if(i >= breakLengths.length){
             break;
@@ -179,7 +189,8 @@ function avgBreakLength(studyTimes){
             i = i + 3;
         }    
     }
-
+	
+	//Calculating the average
     let avg = 0;
     for (let i = 0; i < integerBreakLengths.length; i++){
         avg += integerBreakLengths[i];
