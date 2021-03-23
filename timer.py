@@ -18,9 +18,11 @@ class Timer(Thread):
 
         self.start_time = None
 
+        # some bools for state management
         self.stopped = False
         self.running = False
         self.paused = False
+
         self.time = 0
     
     # main loop, begins when Thread.start() is called
@@ -48,6 +50,7 @@ class Timer(Thread):
                     self.LCD.cursor_pos = (0, 7)
                     self.LCD.write_string("Paused:")
 
+                # written only if there is a change, easier on the lcd
                 if self.time != last_time:
                     self.LCD.cursor_pos = (2, 6)
                     self.LCD.write_string(str("{} m {} s ".format(str(int(self.time/60)), str(self.time%60))))

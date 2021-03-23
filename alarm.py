@@ -2,6 +2,7 @@ from time import sleep
 from threading import Thread
 
 class Alarm(Thread):
+    ''' activate(), stop(), kill() '''
     def __init__(self, piezo):
         super(Alarm, self).__init__(daemon=True)
         self.piezo = piezo

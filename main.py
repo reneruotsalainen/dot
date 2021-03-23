@@ -22,6 +22,7 @@ pause = Button(27)
 # piezo
 piezo = Buzzer(22)
 
+# button bounce for more accurate input
 BOUNCE = 0.2
 
 try:
@@ -47,6 +48,8 @@ try:
 
         # cleared and readied for timer
         LCD.clear()
+
+        # input loop
         while True:
             sleep(BOUNCE)
             if start_stop.is_active:
@@ -77,6 +80,8 @@ try:
                     except Exception:
                         print("Cant pause before starting!")
                         continue
+
+                    # adding break  [int, date, date]
                     breaks.append([pause_timer.time, pause_timer.start_time, pause_timer.end_time])
                     print("break lasted {} seconds".format(pause_timer.time))
                     timer.resume()
